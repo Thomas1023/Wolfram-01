@@ -3,9 +3,14 @@ package sudoku;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Event.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -24,10 +29,17 @@ public class Monitor {
 	static boolean turnType = true;
 	static boolean isWinner = false;
 	static String winner;
-
+	static JMenuBar jmb = new JMenuBar();
+	static JMenu file = new JMenu("file");
+	static JMenu help = new JMenu("help");
+	static JMenu window = new JMenu("window");
+	static JMenuItem exit = new JMenuItem("exit");
+	static JMenuItem red = new JMenuItem("red/white");
+	static JMenuItem green = new JMenuItem("green/white");
+	static JMenuItem rules = new JMenuItem("how to play");
 	// j column
 	// i row
-	static void generator() {
+	static void generator () {
 		JPanel GP = new JPanel();
 		JFrame GF = new JFrame();
 		GF.setSize(1000, 1000);
@@ -36,7 +48,55 @@ public class Monitor {
 		GF.setResizable(false);
 		GF.setLayout(new GridLayout(9, 9));
 		// GP.setLayout(null);
-
+		GF.setJMenuBar(jmb);
+		
+		jmb.add(file);
+		jmb.add(help);
+		jmb.add(window);
+		
+		file.add(exit);
+		
+		help.add(rules);
+		window.addSeparator();
+		window.add(red);
+		window.add(green);
+		
+		red.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	System.out.println("hi");
+		    	for (int i = 0; i < 9; i++) {
+					for (int j = 0; j < 9; j++) {
+						xp = xp + 60;
+						if (j <= 2 && i <= 2 || j > 5 && i <= 2 || j >= 3 && j <= 5 && i >= 3 && i <= 5 || j > 5 && i > 5
+								|| j < 3 && i > 5) {
+							textField[i][j].setBackground(Color.RED);
+						}
+					}
+					yp = yp + 60;
+					xp = 0;
+				}
+		    }
+		});
+		
+		
+		green.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	System.out.println("hi");
+		    	for (int i = 0; i < 9; i++) {
+					for (int j = 0; j < 9; j++) {
+						xp = xp + 60;
+						if (j <= 2 && i <= 2 || j > 5 && i <= 2 || j >= 3 && j <= 5 && i >= 3 && i <= 5 || j > 5 && i > 5
+								|| j < 3 && i > 5) {
+							textField[i][j].setBackground(Color.GREEN);
+						}
+					}
+					yp = yp + 60;
+					xp = 0;
+				}
+		    }
+		});
+		
+		
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				textField[i][j] = new JTextField(1);
@@ -90,9 +150,9 @@ public class Monitor {
 		for (int rows = 0; rows < 9; rows++) {
 			for (int columns = 0; columns < 9; columns++) {
 				sset[rows][columns] = new String();
-				System.out.print(rows);
-				System.out.print(columns);
-				System.out.println("");
+//				System.out.print(rows);
+//				System.out.print(columns);
+//				System.out.println("");
 				sset[rows][columns] = textField[rows][columns].getText();
 				if (sset[rows][columns].matches(sget[rows][columns])) {
 
@@ -116,7 +176,7 @@ public class Monitor {
 
 	}
 	static void stateCheck() {
-		System.err.println("checked");
+		//System.err.println("checked");
 		if(isWinner) {
 			System.err.println("checked in");
 			if(turnType) {
@@ -126,10 +186,13 @@ public class Monitor {
 			}
 		}
 	}
+	static void won(){
+		System.out.println("done");
+	}
 
 	static void scan() {
-		System.err.print(x);
-		System.err.print(y);
+	//	System.err.print(x);
+		//System.err.print(y);
 		for (int rows = 0; rows < 9; rows++) {
 			for (int columns = 0; columns < 9; columns++) {
 				// sset[rows][columns]
@@ -145,6 +208,7 @@ public class Monitor {
 							System.err.print(columns);
 							System.err.print(rows);
 							isWinner = true;
+							won();
 						}
 
 					}
@@ -161,6 +225,7 @@ public class Monitor {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
 								System.out.println("winnnnner");
+								won();
 							}
 						}
 					}
@@ -175,6 +240,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -189,6 +255,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -204,6 +271,7 @@ public class Monitor {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -218,6 +286,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -232,6 +301,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -245,6 +315,8 @@ public class Monitor {
 						if (x == rows && y == columns) {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
+								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -259,6 +331,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -271,6 +344,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -280,6 +354,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -289,6 +364,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -298,6 +374,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -307,6 +384,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -316,6 +394,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -325,6 +404,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -334,6 +414,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -343,6 +424,7 @@ public class Monitor {
 						} else {
 							if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 								isWinner = true;
+								won();
 							}
 						}
 					}
@@ -356,6 +438,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -365,6 +448,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -374,6 +458,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -383,6 +468,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -392,6 +478,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -401,6 +488,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -410,6 +498,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -419,6 +508,7 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
@@ -428,13 +518,14 @@ public class Monitor {
 							} else {
 								if (sset[x][y].equals(sset[rows][columns]) && !sset[rows][columns].equals("")) {
 									isWinner = true;
+									won();
 								}
 							}
 						}
 					}
 				 stateCheck();
 				 if(isWinner) {
-						System.err.println("checked in");
+						System.out.println();
 						if(turnType) {
 							JOptionPane.showMessageDialog(null, "player 2 wins");
 						}else {
@@ -445,4 +536,28 @@ public class Monitor {
 		}
 	}
 
+	
+	public class exitA implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		System.exit(0);
+	}
+	}
+
+	public class RedA implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+		}
+	
+	public class GreenA implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+		}
+	
+	public class rulesA implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+		}
 }
